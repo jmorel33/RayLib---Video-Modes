@@ -6,6 +6,19 @@ typedef struct Display_ratio {
     int height;
 } Display_ratio;
 
+long gcd_l(long a, long b)
+{
+    if (a == 0)
+        return b;
+    else if (b == 0)
+        return a;
+
+    if (a < b)
+        return gcd_l(a, b % a);
+    else
+        return gcd_l(b, a % b);
+}
+
 int gcd_i(int a, int b) {
     int res = a%b;
     while (res > 0) {
@@ -27,7 +40,7 @@ Display_ratio Ratio_info(int x, int y) {
 
 int main()
 {
-    InitWindow(1024, 600, "monitor videomodes");
+    InitWindow(1500, 720, "monitor videomodes");
 
     int count;
     GLFWvidmode* modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
@@ -37,25 +50,20 @@ int main()
     {
         BeginDrawing();
             int x = 10;
-            int y = 10;
+            int y = 0;
 
             ClearBackground(RAYWHITE);
             for (int i = 0; i < count; i++) {
                 ratio = Ratio_info((int)modes[i].width, (int)modes[i].height);
                 
-                DrawText(FormatText("%i x %i rez, %ix%ix%i col, %i rate, ratio = %i:%i",
+                DrawText(FormatText("%ix%i, %i%i%i rgb, %i fps, %i:%i ratio",
                 (int)modes[i].width, (int)modes[i].height,
                 (int)modes[i].redBits, (int)modes[i].greenBits, (int)modes[i].blueBits,
                 (int)modes[i].refreshRate, 
                 ratio.width, ratio.height),
-                x, y, 10, DARKGRAY);
+                x, y, 20, DARKGRAY);
                 
-                y+=10; if (y>550) {x+=300; y=10; };
+                y+=20; if (y>700) {x+=480; y=0; };
             };
         EndDrawing();
     };
-
-    CloseWindow();        // Close window and OpenGL context
-
-    return 0;
-};
