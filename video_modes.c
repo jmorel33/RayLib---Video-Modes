@@ -6,19 +6,6 @@ typedef struct Display_ratio {
     int height;
 } Display_ratio;
 
-long gcd_l(long a, long b)
-{
-    if (a == 0)
-        return b;
-    else if (b == 0)
-        return a;
-
-    if (a < b)
-        return gcd(a, b % a);
-    else
-        return gcd(b, a % b);
-}
-
 int gcd_i(int a, int b) {
     int res = a%b;
     while (res > 0) {
